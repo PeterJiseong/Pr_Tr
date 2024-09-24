@@ -32,7 +32,8 @@ public class PortfolioService {
 //    }
     //최초 페이지 요청
     public String getNotionPage(String pageId){
-        JsonNode jsonNode = getNotionApi(pageId);
+//        JsonNode jsonNode = getNotionApi(pageId);
+        JsonNode jsonNode = portfolioRepository.getBlockNotionAPI(pageId).get("results");
         StringBuilder notionBuilder = new StringBuilder();
         blockToResponse(jsonNode, notionBuilder);
 
@@ -49,43 +50,10 @@ public class PortfolioService {
             //자식 요소가 있을 시 notion에 요청
             if(hasChildren){
                 String blockId = block.get("id").asText().replaceAll("-","");
-                JsonNode childrenNode = getNotionApi(blockId);
+                JsonNode childrenNode = portfolioRepository.getBlockNotionAPI(blockId).get("results");
                 blockToResponse(childrenNode, notionBuilder);
             }
         }
     }
 
-    private JsonNode getNotionApi(String blockId) {
-        return portfolioRepository.getBlockNotionAPI(blockId).get("results");
-//        boolean hasChild = jsonNode.get("has_children").asBoolean();
-//        notionParser.jsonDestruction(jsonNode, notionBuilder);
-//        return hasChild ? jsonToHtml(
-//                jsonNode.get("id").asText()
-//        ) : 0;
-    }
-
-//        "bulleted_list_item"
-//        "callout"
-//        "child_database"
-//        "child_page"
-//        "column"
-//        "column_list"
-//        "divider"
-//        "embed"
-//        "equation"
-//        "file"
-//        "link_preview"
-//        "link_to_page"
-//        "numbered_list_item"
-//        "paragraph"
-//        "pdf"
-//        "quote"
-//        "synced_block"
-//        "table_of_contents"
-//        "table_row"
-//        "template"
-//        "to_do"
-//        "toggle"
-//        "unsupported"
-//        "video"
 }
