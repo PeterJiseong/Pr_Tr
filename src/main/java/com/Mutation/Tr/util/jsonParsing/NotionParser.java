@@ -16,6 +16,7 @@ public class NotionParser implements JsonParser {
 
     @Override
     public void jsonDestruction(JsonNode json, StringBuilder stringBuilder) {
+//        System.err.println("jsonDestruction_json : " + json);
         String type = json.get("type").asText();
         JsonNode richText = json.get(type).get("rich_text");
         stringBuilder.append("<div class='");
@@ -35,22 +36,24 @@ public class NotionParser implements JsonParser {
                 createImage(json, stringBuilder);
                 break;
             case "heading_1" :
-                stringBuilder.append("<h1 class='");
+                stringBuilder.append("<h1 class='heading_1");
                 addClassByAnnotation(richText.get(0), stringBuilder);
                 stringBuilder.append("'>");
-                addClassByAnnotation(richText.get(1), stringBuilder);
+                addContent(richText.get(0), stringBuilder);
                 stringBuilder.append("</h1>");
                 break;
             case "heading_2" :
                 stringBuilder.append("<h2 class='");
                 addClassByAnnotation(richText.get(0), stringBuilder);
                 stringBuilder.append("'>");
+                addContent(richText.get(0), stringBuilder);
                 stringBuilder.append("</h2>");
                 break;
             case "heading_3" :
                 stringBuilder.append("<h3 class='");
                 addClassByAnnotation(richText.get(0), stringBuilder);
                 stringBuilder.append("'>");
+                addContent(richText.get(0), stringBuilder);
                 stringBuilder.append("</h3>");
                 break;
 //            case "bulleted_list_item" :
@@ -68,21 +71,20 @@ public class NotionParser implements JsonParser {
     }
 
     private void addClassByAnnotation(JsonNode json, StringBuilder notionBuilder) {
-
         if(json == null ){
             return;
         }
         json = json.get("annotations");
         json.fields().forEachRemaining(field -> {
             if(!field.getValue().asText().equals("false")){
-                System.err.println("True !!");
+//                System.err.println("True !!");
                 notionBuilder.append(" "+field.getKey() + "_" + field.getValue().asText());
             }
         });
     }
 
     private void createImage(JsonNode json, StringBuilder notionBuilder) {
-        System.err.println("image_json : " + json);
+//        System.err.println("image_json : " + json);
         String url = json.get("image").get("file").get("url").asText();
         notionBuilder.append("<img src='");
         notionBuilder.append(url);
@@ -101,7 +103,7 @@ public class NotionParser implements JsonParser {
     private void createDefaultDiv(JsonNode json, StringBuilder stringBuilder) {
     }
     private void richText(JsonNode richText, StringBuilder notionBuilder) {
-        System.err.println("richText : " + richText);
+//        System.err.println("richText : " + richText);
         if(richText.isEmpty()){
             notionBuilder.append("<p class='notion_empty'></p>");
             return;
@@ -117,10 +119,10 @@ public class NotionParser implements JsonParser {
 //            return;
 //        }
         for(JsonNode each : richText){
-            String href = each.get("href").isNull() ? null : each.get("href").asText();
+            String href = each.get("href")==null||each.get("href").isNull() ? null : each.get("href").asText();
             if(href != null){
                 notionBuilder.append("<a class='notion_link");
-                System.err.println("each : " + each);
+//                System.err.println("each : " + each);
                 addClassByAnnotation(each, notionBuilder);
                 notionBuilder.append("'>");
                 addContent(each, notionBuilder);
@@ -128,7 +130,7 @@ public class NotionParser implements JsonParser {
                 return;
             }
             notionBuilder.append("<p class='notion_content");
-            System.err.println("each : " + each.toString());
+//            System.err.println("each : " + each.toString());
             addClassByAnnotation(each, notionBuilder);
             notionBuilder.append("'>");
             addContent(each, notionBuilder);
@@ -138,7 +140,9 @@ public class NotionParser implements JsonParser {
 
     }
     private void addContent(JsonNode json, StringBuilder notionBuilder) {
-        notionBuilder.append(json.get("plain_text").asText());
+        if(json!=null){
+            notionBuilder.append(json.get("plain_text").asText());
+        }
     }
 
 }

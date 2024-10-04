@@ -37,22 +37,19 @@ public class PortfolioController {
 
     @GetMapping(value = {"/main","/submit"})
     public String portfolioMain(Model model) {
-        portfolioService.getNotionPage(notionPortfolioMainPage);
+//        portfolioService.getNotionPage(notionPortfolioMainPage);
 //        portfolioService.getDatabase();
 
 
-        return portfolioPath + "portfolio_main";
+        return portfolioPath + "/portfolio_main";
     }
+
 
     @ResponseBody
     @GetMapping(value = "/notionMainPage")
     public String notionMainPage() {
-        return portfolioService.getNotionPage("551a7ee9c26d4fa5be054bd5f7afa1bb");
+        return portfolioService.getNotionPage(notionPortfolioMainPage);
     }
-    @GetMapping(value = "/javascriptTest")
-    public String javascriptTest(Model model) {
-        System.err.println("javascritpTestController");
-        return portfolioPath + "javascriptTest";
-    }
+
 
 }

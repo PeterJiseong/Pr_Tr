@@ -3,6 +3,7 @@ package com.Mutation.Tr.portfolio.service;
 import com.Mutation.Tr.portfolio.repository.PortfolioRepository;
 import com.Mutation.Tr.util.jsonParsing.NotionParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
+
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -40,20 +43,37 @@ public class PortfolioService {
         return notionBuilder.toString();
     }
     //블록순회 모듈
+
     private void blockToResponse(JsonNode jsonNode, StringBuilder notionBuilder){
-        for(JsonNode block : jsonNode){
-            System.err.println("block :  " + block);
-            boolean hasChildren = block.get("has_children").asBoolean();
 
-            notionParser.jsonDestruction(block, notionBuilder);
 
-            //자식 요소가 있을 시 notion에 요청
-            if(hasChildren){
-                String blockId = block.get("id").asText().replaceAll("-","");
-                JsonNode childrenNode = portfolioRepository.getBlockNotionAPI(blockId).get("results");
-                blockToResponse(childrenNode, notionBuilder);
-            }
-        }
+        ArrayNode arrayNode = (ArrayNode) jsonNode;
+        StreamSupport.stream(arrayNode.spliterator(), false)
+                .parallel()
+                .forEachOrdered(node->{
+                    boolean hasChildren = node.get("has_children").asBoolean();
+                    notionParser.jsonDestruction(node, notionBuilder);
+                    if(hasChildren){
+                        String blockId = node.get("id").asText().replaceAll("-","");
+                        JsonNode childrenNode = portfolioRepository.getBlockNotionAPI(blockId).get("results");
+                        blockToResponse(childrenNode, notionBuilder);
+                    }
+                });
+
+//        for(JsonNode block : jsonNode){
+//            System.err.println("block :  " + block);
+//            boolean hasChildren = block.get("has_children").asBoolean();
+//
+//            notionParser.jsonDestruction(block, notionBuilder);
+//
+//            //자식 요소가 있을 시 notion에 요청
+//            if(hasChildren){
+//
+//                String blockId = block.get("id").asText().replaceAll("-","");
+////                JsonNode childrenNode = portfolioRepository.getBlockNotionAPI(blockId).get("results");
+////                blockToResponse(childrenNode, notionBuilder);
+//            }
+//        }
     }
 
 }

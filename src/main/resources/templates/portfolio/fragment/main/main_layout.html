@@ -4,21 +4,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Portfolio</title>
 
 
-    <th:block layout:fragment="content_css"></th:block>
+    <th:block layout:fragment="content_css">
+    </th:block>
 
 
 </head>
 
 <body>
     <div class="container">
-        <input class="logoutData" type="hidden" th:value="${logoutSuccess}">
         <div class="row mb-3">
             <!-- 헤더 -->
             <div class="col">
-                <th:block th:replace="~{fragment/main/main_header :: mainHeaderFragment}"></th:block>
+                <th:block th:replace="~{portfolio/fragment/main/main_header :: mainHeaderFragment}"></th:block>
             </div>
         </div>
         <div class="row">
@@ -28,15 +28,14 @@
             </div>
             <!-- 푸터 -->
             <div class="col-2">
-                <th:block th:replace="~{fragment/main/main_footer :: mainFooterFragment}"></th:block>
+                <th:block th:replace="~{portfolio/fragment/main/main_footer :: mainFooterFragment}"></th:block>
             </div>
         </div>
     </div>
-    <div class="col-3">
-        <th:block th:replace="~{fragment/ai_chatbot :: aiChatbotFragment}"></th:block>
-    </div>
     <!-- js -->
-    <th:block layout:fragment="content_js"></th:block>
+    <th:block layout:fragment="content_js">
+
+    </th:block>
 
 </body>
 

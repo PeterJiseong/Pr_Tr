@@ -1,0 +1,45 @@
+p{
+    /*min-height:10px;*/
+    margin: 2px;
+}
+#notionBlock{
+    display: flex;
+    flex-flow: column;
+}
+
+.color_red{
+    color: red;
+}
+.paragraph{
+    margin : 15px;
+}
+.bulleted_list_item {
+    margin-left: 20px;
+    position: relative;
+    padding-left: 10px;
+}
+
+.bulleted_list_item::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: black;
+}
+.numbered_list_item {
+    margin-left: 20px;
+    position: relative;
+    padding-left: 10px;
+}
+
+.numbered_list_item::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: black;
+}
