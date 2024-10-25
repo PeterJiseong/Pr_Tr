@@ -1,0 +1,85 @@
+*{
+  margin:0;
+  padding:0;
+
+}
+body{
+  background: #f6f3f3;
+}
+.header_col1 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  position: relative;
+}
+
+
+.header_wrap{
+  display: flex;
+  flex-flow: row;
+  height: 110px;
+  background: #d9d9d9;
+}
+.header_col1{
+  flex-grow: 1;
+  height: 100%;
+}
+.header_col2{
+  flex-grow: 4;
+  height: 100%;
+}
+.header_col3{
+  flex-grow: 1;
+  height: 100%;
+}
+.bi-house-door{
+  width: 40px;
+  margin-left:-20px;
+  margin-top:-10px;
+  cursor: pointer;
+}
+.bi-list{
+  margin-top: 20px;
+  width: 40px;
+  cursor: pointer;
+}
+.header_content{
+  font-weight: bold;
+  font-size: 45px;
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
+  margin-left: -20px;
+}
+#my_imgBox{
+  margin-top:30px;
+  display: flex;
+}
+#my_img{
+  margin: 0 auto;
+  width: 230px;
+  object-fit: cover;
+  align-content: center;
+}
+.main_content{
+  margin-top:20px;
+
+}
+.article_box{
+  display: flex;
+}
+.dummy_c1{
+  flex-grow: 1;
+}
+.dummy_c2{
+  flex-grow: 1;
+}
+.main_content{
+  flex-grow: 4;
+  min-width: 800px;
+}s

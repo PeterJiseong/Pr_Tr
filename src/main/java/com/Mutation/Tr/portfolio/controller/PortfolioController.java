@@ -41,7 +41,7 @@ public class PortfolioController {
 //        portfolioService.getDatabase();
 
 
-        return portfolioPath + "/portfolio_main";
+        return portfolioPath + "portfolio_main";
     }
 
 

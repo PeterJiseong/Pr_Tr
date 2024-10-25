@@ -7,7 +7,7 @@ import paging from "../../paging.js";
 // }
 const notionBlock = document.querySelector('#notionBlock');
 window.addEventListener("DOMContentLoaded", ()=>{
-    paging("/portfolio/notionMainPage","get",notionBlock);
+    // paging("/portfolio/notionMainPage","get",notionBlock);
 })
 
 
