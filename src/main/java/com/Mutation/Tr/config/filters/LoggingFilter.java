@@ -1,20 +1,27 @@
 package com.Mutation.Tr.config.filters;
 
+import com.Mutation.Tr.observer.service.LoggingService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @WebFilter(urlPatterns = "/*")
 @Component
+@RequiredArgsConstructor
 public class LoggingFilter extends OncePerRequestFilter {
+
+    private final LoggingService loggingService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -26,6 +33,11 @@ public class LoggingFilter extends OncePerRequestFilter {
 
             return; // 필터 실행 없이 바로 반환
         }
+        Map<String, String> loggingContents = new HashMap<>();
+        loggingContents.put("requestURI", requestURI);
+        loggingContents.put("time", LocalDateTime.now().toString());
+        loggingContents.put("localAddr", request.getLocalAddr());
+        loggingService.saveLogging(loggingContents);
         System.err.println("request.getAuthType : " + request.getAuthType());
         System.err.println("request.getContextPath : " + request.getContextPath());
         System.err.println("request.getCookies : " + request.getCookies());
