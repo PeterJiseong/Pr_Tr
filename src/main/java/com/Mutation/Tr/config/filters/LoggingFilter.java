@@ -1,52 +1,63 @@
 package com.Mutation.Tr.config.filters;
 
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+@WebFilter(urlPatterns = "/*")
 @Component
-public class LoggingFilter implements Filter {
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
-    }
+public class LoggingFilter extends OncePerRequestFilter {
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-       filterChain.doFilter(servletRequest, servletResponse);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        doFilter(request, response, filterChain);
+//        System.err.println("request.getAsyncContext" + request.getAsyncContext());
 
-        System.err.println(servletRequest);
-//        System.out.println("servletResponse.get" + servletResponse.getOutputStream());
-        System.err.println("serveletRequest.getCharacterEncoding : "+servletRequest.getCharacterEncoding());
-        System.err.println("serveletRequest.getContentType : "+servletRequest.getContentType());
-        System.err.println("serveletRequest.getRequestId : "+servletRequest.getRequestId());
-        System.err.println("serveletRequest.getLocale : "+servletRequest.getLocale());
-        System.err.println("serveletRequest.getProtocolRequestId : "+servletRequest.getProtocolRequestId());
-        System.err.println("serveletRequest.getLocalAddr : "+servletRequest.getLocalAddr());
-        System.err.println("serveletRequest.getLocalName : "+servletRequest.getLocalName());
-        System.err.println("serveletRequest.getParameterMap : "+servletRequest.getParameterMap().toString());
-        Map map = servletRequest.getParameterMap();
-        System.err.println("map : -->");
-        map.forEach((o, o2) -> System.err.println(o + " : " +  Arrays.toString((String[]) o2)));
-        System.err.println("serveletRequest.getProtocol : "+servletRequest.getProtocol());
-        System.err.println("serveletRequest.getRemoteAddr : "+servletRequest.getRemoteAddr());
-        System.err.println("serveletRequest.getContentLength : "+servletRequest.getContentLength());
-        System.err.println("serveletRequest.getRemoteHost : "+servletRequest.getRemoteHost());
-        System.err.println("serveletRequest.getRemotePort : "+servletRequest.getRemotePort());
-//        System.err.println("serveletRequest.get : "+servletRequest.getRequestDispatcher().);
-        System.err.println("serveletRequest.getScheme : "+servletRequest.getScheme());
-        System.err.println("serveletRequest.getServerName : "+servletRequest.getServerName());
-        System.err.println("serveletRequest.getServerPort : "+servletRequest.getServerPort());
-        System.err.println("serveletRequest.getServletConnection : "+servletRequest.getServletConnection());
-        System.err.println("serveletRequest.getServletContext : "+servletRequest.getServletContext());
+        String requestURI = request.getRequestURI();
+        if (requestURI.endsWith(".css") || requestURI.endsWith(".js") || requestURI.endsWith(".jpg")) {
+
+            return; // 필터 실행 없이 바로 반환
+        }
+        System.err.println("request.getAuthType : " + request.getAuthType());
+        System.err.println("request.getContextPath : " + request.getContextPath());
+        System.err.println("request.getCookies : " + request.getCookies());
+        System.err.println("request.getHttpServletMapping : " + request.getHttpServletMapping());
+        System.err.println("request. ::");
+        request.getHeaderNames().asIterator().forEachRemaining((o)->{
+            System.err.println(o + " : " + request.getHeader(o).toString());
+        });
+
+
+        System.err.println("request.getLocale : " + request.getLocale());
+        System.err.println("request.getLocalName : " + request.getLocalName());
+        System.err.println("request.getLocalPort : " + request.getLocalPort());
+        System.err.println("request.getMethod : " + request.getMethod());
+        System.err.println("request.getParameterMap :  : " + request.getParameterMap());
+        request.getParameterMap().forEach((k,v)->{
+            System.err.println(k + " : " + Arrays.toString((String[]) v) );
+        });
+        System.err.println("request.getPathInfo : " + request.getPathInfo());
+        System.err.println("request.getPathTranslated : " + request.getPathTranslated());
+        System.err.println("request.getProtocol : " + request.getProtocol());
+        System.err.println("request.getRemoteUser : " + request.getRemoteUser());
+        System.err.println("request.getQueryString : " + request.getQueryString());
+        System.err.println("request.getRequestedSessionId : " + request.getRequestedSessionId());
+        System.err.println(request.getLocalAddr());
+        System.err.println(request.getRequestedSessionId() + " ::: iddididid");
+        System.err.println("request.getUserPrincipal : " + request.getUserPrincipal());
+        System.err.println("request.getRequestId : " + request.getRequestId());
+        System.err.println("request.getRequestURI : " + request.getRequestURI());
+        System.err.println("request.getRequestURL : " + request.getRequestURL());
+        System.err.println("request.getServerName : " + request.getServerName());
+        System.err.println("request.getServerPort : " + request.getServerPort());
         System.err.println("end \n\n\n");
-    }
-
-    @Override
-    public void destroy() {
-        Filter.super.destroy();
     }
 }
