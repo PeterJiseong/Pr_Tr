@@ -14,7 +14,7 @@ public class MainController {
 
     @RequestMapping(value = {"/home",""})
     public String getMain(){
-
+        System.err.println("main");
         return mainHtmlContentPath+"index";
     }
 

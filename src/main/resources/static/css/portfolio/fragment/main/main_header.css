@@ -1,85 +1,103 @@
-*{
-  margin:0;
-  padding:0;
-
-}
-body{
-  background: #f6f3f3;
-}
-.header_col1 {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  font-weight: bold;
-  font-size: 14px;
-  color: #333;
-  position: relative;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+:root {
+  --navy: #1a237e;
+  --navy-light: #283593;
+  --navy-dark: #121858;
+  --white: #ffffff;
+}
 
-.header_wrap{
-  display: flex;
-  flex-flow: row;
-  height: 110px;
-  background: #d9d9d9;
+/* Navigation */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: var(--navy);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
-.header_col1{
-  flex-grow: 1;
-  height: 100%;
-}
-.header_col2{
-  flex-grow: 4;
-  height: 100%;
-}
-.header_col3{
-  flex-grow: 1;
-  height: 100%;
-}
-.bi-house-door{
-  width: 40px;
-  margin-left:-20px;
-  margin-top:-10px;
-  cursor: pointer;
-}
-.bi-list{
-  margin-top: 20px;
-  width: 40px;
-  cursor: pointer;
-}
-.header_content{
-  font-weight: bold;
-  font-size: 45px;
-  text-align: center;
-  margin-top: 10px;
-  cursor: pointer;
-  margin-left: -20px;
-}
-#my_imgBox{
-  margin-top:30px;
-  display: flex;
-}
-#my_img{
+
+.nav-container {
+  max-width: 1200px;
   margin: 0 auto;
-  width: 230px;
-  object-fit: cover;
-  align-content: center;
-}
-.main_content{
-  margin-top:20px;
-
-}
-.article_box{
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+  padding: 0 1.5rem;
 }
-.dummy_c1{
-  flex-grow: 1;
+
+.nav-logo {
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
-.dummy_c2{
-  flex-grow: 1;
+
+.nav-logo:hover {
+  color: #e0e0e0;
 }
-.main_content{
-  flex-grow: 4;
-  min-width: 800px;
-}s
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-menu li {
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.nav-menu a:hover {
+  background-color: var(--navy-light);
+  color: var(--white);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+
+  .nav-menu {
+    gap: 1rem;
+  }
+
+  .nav-menu a {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-logo {
+    font-size: 1.25rem;
+  }
+
+  .nav-menu {
+    gap: 0.5rem;
+  }
+
+  .nav-menu a {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,349 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #1a237e;
+    --navy-light: #283593;
+    --navy-dark: #121858;
+    --white: #ffffff;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--gray-700);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--navy);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+    padding: 0 1.5rem;
+}
+
+.nav-logo {
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-menu a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+    color: var(--gray-300);
+}
+
+/* Main Sections */
+main {
+    padding-top: 4rem;
+}
+
+section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: var(--navy);
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.5rem;
+    width: 3rem;
+    height: 0.25rem;
+    background-color: var(--navy);
+    border-radius: 0.25rem;
+}
+
+/* About Section */
+.about-section {
+    background-color: var(--gray-100);
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.profile-image {
+    flex: 0 0 200px;
+}
+
+.profile-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 20%;
+    border: 4px solid var(--navy);
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h1 {
+    font-size: 2.5rem;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+}
+
+.quote {
+    font-size: 1.1rem;
+    color: var(--gray-600);
+    font-style: italic;
+}
+
+/* Projects Section */
+.project-card {
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+.project-card h3 {
+    color: var(--navy);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.project-description {
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
+}
+
+.project-details {
+    margin-bottom: 1.5rem;
+}
+
+.project-details h4 {
+    color: var(--navy);
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.project-details ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.tech-stack h4 {
+    color: var(--navy);
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-tag {
+    background-color: var(--navy);
+    color: var(--white);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+}
+
+/* Skills Section */
+.skills-section {
+    background-color: var(--gray-100);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.skill-card {
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.skill-card h3 {
+    color: var(--navy);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.skill-list {
+    list-style: none;
+}
+
+.skill-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.skill-level {
+    font-weight: 500;
+}
+
+.skill-level.advanced {
+    color: var(--navy);
+}
+
+.skill-level.intermediate {
+    color: var(--navy-light);
+}
+
+/* Footer */
+footer {
+    background-color: var(--navy);
+    color: var(--white);
+    padding: 2rem 0;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    /* 자기소개 섹션 */
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-image {
+        flex: 0 0 200px;
+        margin: 0 auto 2rem;
+    }
+
+    .profile-image img {
+        width: 200px;
+        height: 200px;
+    }
+
+    /* 네비게이션 */
+    .nav-container {
+        padding: 0 1rem;
+    }
+
+    .nav-menu {
+        gap: 1rem;
+    }
+
+    .nav-menu a {
+        font-size: 0.9rem;
+    }
+
+    /* 섹션 타이틀 */
+    .section-title {
+        font-size: 1.75rem;
+        text-align: center;
+    }
+
+    .section-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* 프로젝트 카드 */
+    .project-card {
+        padding: 1.5rem;
+    }
+
+    .tech-tags {
+        justify-content: center;
+    }
+
+    /* 스킬 그리드 */
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* 네비게이션 */
+    .nav-logo {
+        font-size: 1.25rem;
+    }
+
+    .nav-menu {
+        gap: 0.5rem;
+    }
+
+    /* 자기소개 */
+    .about-text h1 {
+        font-size: 2rem;
+    }
+
+    .quote {
+        font-size: 1rem;
+    }
+
+    /* 프로젝트 카드 */
+    .project-card h3 {
+        font-size: 1.25rem;
+    }
+
+    .project-details h4 {
+        font-size: 1.1rem;
+    }
+
+    /* 여백 조정 */
+    section {
+        padding: 3rem 0;
+    }
+
+    .container {
+        padding: 0 0.75rem;
+    }
+}

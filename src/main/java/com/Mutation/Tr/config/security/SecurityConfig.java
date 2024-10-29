@@ -20,9 +20,9 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
 
-        http.csrf(csrf-> csrf.disable()).cors(cors->cors.disable()) // 임시 csrf설정 -- > 끔
 
-                .formLogin(formLogin->formLogin
+
+                http.formLogin(formLogin->formLogin
                         .loginPage("/member/login")
                         .usernameParameter("memberId")
                         .passwordParameter("memberPw")
