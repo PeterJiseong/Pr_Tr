@@ -29,47 +29,47 @@ body {
     padding: 0 1rem;
 }
 
-/* Navigation */
-.navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: var(--navy);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
+/*!* Navigation *!*/
+/*.navbar {*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    width: 100%;*/
+/*    background-color: var(--navy);*/
+/*    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+/*    z-index: 1000;*/
+/*}*/
 
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 4rem;
-    padding: 0 1.5rem;
-}
+/*.nav-container {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    height: 4rem;*/
+/*    padding: 0 1.5rem;*/
+/*}*/
 
-.nav-logo {
-    color: var(--white);
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-decoration: none;
-}
+/*.nav-logo {*/
+/*    color: var(--white);*/
+/*    font-size: 1.5rem;*/
+/*    font-weight: bold;*/
+/*    text-decoration: none;*/
+/*}*/
 
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-}
+/*.nav-menu {*/
+/*    display: flex;*/
+/*    list-style: none;*/
+/*    gap: 2rem;*/
+/*}*/
 
-.nav-menu a {
-    color: var(--white);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-}
+/*.nav-menu a {*/
+/*    color: var(--white);*/
+/*    text-decoration: none;*/
+/*    font-weight: 500;*/
+/*    transition: color 0.3s;*/
+/*}*/
 
-.nav-menu a:hover {
-    color: var(--gray-300);
-}
+/*.nav-menu a:hover {*/
+/*    color: var(--gray-300);*/
+/*}*/
 
 /* Main Sections */
 main {
@@ -271,17 +271,17 @@ footer {
     }
 
     /* 네비게이션 */
-    .nav-container {
-        padding: 0 1rem;
-    }
+    /*.nav-container {*/
+    /*    padding: 0 1rem;*/
+    /*}*/
 
-    .nav-menu {
-        gap: 1rem;
-    }
+    /*.nav-menu {*/
+    /*    gap: 1rem;*/
+    /*}*/
 
-    .nav-menu a {
-        font-size: 0.9rem;
-    }
+    /*.nav-menu a {*/
+    /*    font-size: 0.9rem;*/
+    /*}*/
 
     /* 섹션 타이틀 */
     .section-title {
@@ -312,13 +312,13 @@ footer {
 
 @media (max-width: 480px) {
     /* 네비게이션 */
-    .nav-logo {
-        font-size: 1.25rem;
-    }
+    /*.nav-logo {*/
+    /*    font-size: 1.25rem;*/
+    /*}*/
 
-    .nav-menu {
-        gap: 0.5rem;
-    }
+    /*.nav-menu {*/
+    /*    gap: 0.5rem;*/
+    /*}*/
 
     /* 자기소개 */
     .about-text h1 {
