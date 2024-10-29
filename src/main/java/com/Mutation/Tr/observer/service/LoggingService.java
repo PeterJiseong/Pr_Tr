@@ -14,7 +14,7 @@ public class LoggingService {
 
     public void saveLogging(Map<String, String> contents){
         Logging logging = new Logging();
-        logging.setLocalAddr(contents.get("localAddr"));
+        logging.setRemoteAddr(contents.get("remoteAddr"));
         logging.setRequestUri(contents.get("requestURI"));
         logging.setTime(contents.get("time"));
         loggingRepository.save(logging);

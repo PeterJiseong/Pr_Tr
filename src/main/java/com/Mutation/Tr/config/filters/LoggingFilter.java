@@ -36,7 +36,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         Map<String, String> loggingContents = new HashMap<>();
         loggingContents.put("requestURI", requestURI);
         loggingContents.put("time", LocalDateTime.now().toString());
-        loggingContents.put("localAddr", request.getRemoteAddr());
+        loggingContents.put("remoteAddr", request.getRemoteAddr());
         loggingService.saveLogging(loggingContents);
         System.err.println("request.getAuthType : " + request.getAuthType());
         System.err.println("request.getContextPath : " + request.getContextPath());

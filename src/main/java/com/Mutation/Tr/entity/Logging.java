@@ -14,7 +14,7 @@ public class Logging{
     private long id;
 
     @Column
-    private String localAddr;
+    private String remoteAddr;
 
     @Column
     private String requestUri;
