@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,6 +26,12 @@ public class LoggingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        Locale local = request.getLocale();
+        System.err.println(local);
+        if(local!=Locale.KOREA){
+            return;
+        }
+
         doFilter(request, response, filterChain);
 //        System.err.println("request.getAsyncContext" + request.getAsyncContext());
 
