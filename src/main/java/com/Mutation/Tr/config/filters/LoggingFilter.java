@@ -40,6 +40,7 @@ public class LoggingFilter extends OncePerRequestFilter {
 
             return; // 필터 실행 없이 바로 반환
         }
+        System.err.println("reMoteAtdsar" + request.getRemoteAddr());
         Map<String, String> loggingContents = new HashMap<>();
         loggingContents.put("requestURI", requestURI);
         loggingContents.put("time", LocalDateTime.now().toString());
