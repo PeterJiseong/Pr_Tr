@@ -31,12 +31,20 @@
 		<hibernate.version>6.5.2.Final</hibernate.version> <!-- Hibernate 버전 명시 -->
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.1</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
 		<dependency>
 			<groupId>com.maxmind.geoip2</groupId>
 			<artifactId>geoip2</artifactId>
 			<version>4.0.1</version>
 		</dependency>
+
+
 		<!-- MaxMind DB -->
 		<dependency>
 			<groupId>com.maxmind.db</groupId>

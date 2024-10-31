@@ -6,19 +6,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "logging")
+@Table(name = "appropriateLog")
 @Getter @Setter @ToString
-public class Logging{
-
+public class AppropriateLog extends Log{
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column
-    private String remoteAddr;
 
-    @Column
-    private String requestUri;
-
-    @Column
-    private String time;
 }
