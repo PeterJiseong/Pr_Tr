@@ -14,7 +14,9 @@ public class MainInterceptor implements HandlerInterceptor {
 
         }catch(Exception e){
             e.printStackTrace();
-            response.sendRedirect("/portfolio/main");
+            if(!response.isCommitted()){
+                response.sendRedirect("/portfolio/main");
+            }
 //            return true;
         }
 

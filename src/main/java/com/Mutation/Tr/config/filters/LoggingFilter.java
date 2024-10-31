@@ -7,29 +7,28 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @WebFilter(urlPatterns = "/*")
-@Component
-@RequiredArgsConstructor
+
 public class LoggingFilter extends OncePerRequestFilter {
 
     private final LoggingService loggingService;
-    private static List<String> correctURIs;
 
-    @Override
-    protected void initFilterBean() throws ServletException {
-        this.correctURIs = new ArrayList<>();
-        correctURIs.add("/favicon.ico");
-        correctURIs.add("/portfolio");
-        super.initFilterBean();
+    private final List<String> correctURIs;
+
+    private final List<String> ignoredURIs;
+
+    public LoggingFilter(LoggingService loggingService, List<String> correctURIs, List<String> ignoredURIs) {
+        this.loggingService = loggingService;
+        this.correctURIs = correctURIs;
+        this.ignoredURIs = ignoredURIs;
     }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -41,15 +40,17 @@ public class LoggingFilter extends OncePerRequestFilter {
 
         if(isInappropriateUri(requestURI)){
             filterChain.doFilter(request, response);
-        }else{
+
+        }else if(isStaticResource(requestURI)){
+            filterChain.doFilter(request, response);
+            return;
+        } else{
             loggingService.saveInappropriateLog(log);
+            System.err.println(request.getRequestURI());
             return;
         }
 
-        doFilter(request, response, filterChain);
-        if (requestURI.endsWith(".css") || requestURI.endsWith(".js") || requestURI.endsWith(".jpg")) {
-            return; // 필터 실행 없이 바로 반환
-        }
+
         loggingService.saveAppropriageLog(log);
         System.err.println("requestURI : " + requestURI);
         System.err.println("requestURL : " + request.getRequestURL());
@@ -89,8 +90,17 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
     private boolean isInappropriateUri(String uri) {
+        if(uri.endsWith("/")) return true;
         for(String appropriateUri : correctURIs){
-            if(appropriateUri.equals(uri)) return true;
+            if(uri.startsWith(appropriateUri)) return true;
+        }
+        return false;
+    }
+    private boolean isStaticResource(String uri) {
+        for(String ignore : ignoredURIs){
+            if(uri.startsWith(ignore)){
+                return true;
+            }
         }
         return false;
     }

@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "inappropriateLogg")
+@Table(name = "inappropriateLog")
 @Getter @Setter @ToString
 public class InappropriateLog extends Log{
     @Id
