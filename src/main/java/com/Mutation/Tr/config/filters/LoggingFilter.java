@@ -44,10 +44,10 @@ public class LoggingFilter extends OncePerRequestFilter {
                 .withRemoteAddr(remoteAddr)
                 .withTime(LocalDateTime.now().toString())
                 .withUri(requestURI)
-                .withCity(cityResponse.getCity().toString())
-                .withCountry(cityResponse.getCountry().toString())
-                .withLocation(cityResponse.getLocation().toString())
-                .withPostalCode(cityResponse.getPostal().toString());
+                .withCity(cityResponse.getCity().getName())
+                .withCountry(cityResponse.getCountry().getName())
+                .withLocation(cityResponse.getLocation().getTimeZone())
+                .withPostalCode(cityResponse.getPostal().getCode());
 
         if(isInappropriateUri(requestURI)){
             filterChain.doFilter(request, response);
