@@ -1,6 +1,7 @@
 package com.Mutation.Tr.config.filters;
 
 import com.Mutation.Tr.observer.service.LoggingService;
+import com.Mutation.Tr.util.service.GeoIpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import java.util.List;
 public class FilterConfig {
 
     private final LoggingService loggingService;
+    private final GeoIpService geoIpService;
 
     @Bean
     public FilterRegistrationBean<LoggingFilter> customFilter() {
@@ -28,7 +30,7 @@ public class FilterConfig {
         ignores.add("/js");
         ignores.add("/img");
 
-        registrationBean.setFilter(new LoggingFilter(loggingService, urlPatterns, ignores));
+        registrationBean.setFilter(new LoggingFilter(loggingService, urlPatterns, ignores, geoIpService));
         registrationBean.setOrder(1);  // 필터 순서 지정
         registrationBean.addUrlPatterns("/*");  // URL 패턴 지정
 

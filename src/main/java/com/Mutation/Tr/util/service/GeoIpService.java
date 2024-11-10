@@ -4,6 +4,7 @@ import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.model.CityResponse;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -14,11 +15,13 @@ import java.net.InetAddress;
 @Service
 public class GeoIpService {
     private DatabaseReader dbReader;
+    @Value("${maxmind.api.database.path}")
+    private String geoIpPath;
 
     @PostConstruct
     public void init() throws IOException {
         // DB 파일 로드
-        File database = new File("path/to/GeoLite2-City.mmdb");
+        File database = new File(geoIpPath);
         dbReader = new DatabaseReader.Builder(database).build();
     }
 
