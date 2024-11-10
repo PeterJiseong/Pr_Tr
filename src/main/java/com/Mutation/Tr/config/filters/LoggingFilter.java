@@ -2,41 +2,52 @@ package com.Mutation.Tr.config.filters;
 
 import com.Mutation.Tr.entity.Log;
 import com.Mutation.Tr.observer.service.LoggingService;
-import jakarta.servlet.*;
+import com.Mutation.Tr.util.service.GeoIpService;
+import com.maxmind.geoip2.model.CityResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 @WebFilter(urlPatterns = "/*")
 
 public class LoggingFilter extends OncePerRequestFilter {
 
     private final LoggingService loggingService;
-
+    private final GeoIpService geoIpService;
     private final List<String> correctURIs;
-
     private final List<String> ignoredURIs;
 
-    public LoggingFilter(LoggingService loggingService, List<String> correctURIs, List<String> ignoredURIs) {
+
+    public LoggingFilter(LoggingService loggingService, List<String> correctURIs, List<String> ignoredURIs, GeoIpService geoIpService) {
         this.loggingService = loggingService;
         this.correctURIs = correctURIs;
         this.ignoredURIs = ignoredURIs;
+        this.geoIpService = geoIpService;
     }
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
+        String remoteAddr = request.getRemoteAddr();
+        CityResponse cityResponse = geoIpService.getLocation(remoteAddr);
+
         Log log = new Log()
-                .withRemoteAddr(request.getRemoteAddr())
+                .withRemoteAddr(remoteAddr)
                 .withTime(LocalDateTime.now().toString())
-                .withUri(requestURI);
+                .withUri(requestURI)
+                .withCity(cityResponse.getCity().toString())
+                .withCountry(cityResponse.getCountry().toString())
+                .withLocation(cityResponse.getLocation().toString())
+                .withPostalCode(cityResponse.getPostal().toString());
 
         if(isInappropriateUri(requestURI)){
             filterChain.doFilter(request, response);
@@ -102,6 +113,7 @@ public class LoggingFilter extends OncePerRequestFilter {
                 return true;
             }
         }
+
         return false;
     }
 
