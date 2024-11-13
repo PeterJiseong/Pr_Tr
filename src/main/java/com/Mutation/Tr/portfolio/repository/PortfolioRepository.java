@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -18,11 +19,13 @@ public class PortfolioRepository {
 
     private final NotionParser notionParser;
 
+    @Autowired
     @Qualifier("notionObjectMapper")
-    private final ObjectMapper notionObjectMapper;
+    private ObjectMapper notionObjectMapper;
 
+    @Autowired
     @Qualifier("notionWebclient")
-    private final WebClient notionWebclient;
+    private WebClient notionWebclient;
 
     @Value("${notion.apiKey}")
     private String notionApiKey;

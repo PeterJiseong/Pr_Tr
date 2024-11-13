@@ -1,5 +1,6 @@
 package com.Mutation.Tr.entity;
 
+import com.Mutation.Tr.constant.MemberRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +26,11 @@ public class TrMember {
 
     @Column
     private int age;
+
+    @Column
+    private String gender;
+
+    @Column
+    private MemberRole role;
 
 }

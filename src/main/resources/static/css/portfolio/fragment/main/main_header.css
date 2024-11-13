@@ -11,7 +11,7 @@
   --white: #ffffff;
 }
 
-/* Navigation */
+/* nav */
 .navbar {
   position: fixed;
   top: 0;
@@ -65,9 +65,15 @@
   border-radius: 4px;
   transition: all 0.3s ease;
   cursor: pointer;
+  white-space: nowrap;
+}
+.nav-menu svg{
+  padding: 1.2rem 1.5rem;
+  transition: all 0.3s ease;
+  color: var(--white);
 }
 
-.nav-menu a:hover {
+.nav-menu a:hover, .nav-menu svg:hover {
   background-color: var(--navy-light);
   color: var(--white);
 }
@@ -95,7 +101,7 @@
   /*cursor: pointer;*/
 }
 
-.dropdown-content li a:hover {
+.dropdown-content li a:hover{
   background-color: #f1f1f1;
   color: #6e6e88;
 }
@@ -107,7 +113,10 @@
 .nav-link:hover {
   color: #90caf9;
 }
-/* 반응형 디자인 */
+.profile-image{
+  cursor: pointer;
+}
+/* 반응형 */
 @media (max-width: 768px) {
   .nav-container {
     padding: 0 1rem;
