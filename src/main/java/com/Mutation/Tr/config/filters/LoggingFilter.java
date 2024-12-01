@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class LoggingFilter extends OncePerRequestFilter {
             System.err.println("city : " + cityResponse.getCity());
             log = log
                     .withRemoteAddr(remoteAddr)
-                    .withTime(LocalDateTime.now().toString())
+                    .withTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")).toString())
                     .withUri(requestURI)
                     .withCity(cityResponse.getCity().getName())
                     .withCountry(cityResponse.getCountry().getName())
