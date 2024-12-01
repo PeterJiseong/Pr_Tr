@@ -26,6 +26,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 //                );
 
 
+
                 http.formLogin(formLogin->formLogin
                         .loginPage("/member/login")
                         .usernameParameter("memberId")

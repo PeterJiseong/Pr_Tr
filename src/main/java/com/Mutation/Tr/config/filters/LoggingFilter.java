@@ -38,27 +38,45 @@ public class LoggingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
         String remoteAddr = request.getRemoteAddr();
-        CityResponse cityResponse = geoIpService.getLocation("119.201.178.192");
-        System.err.println("city : " + cityResponse.getCity());
-        Log log = new Log()
-                .withRemoteAddr(remoteAddr)
-                .withTime(LocalDateTime.now().toString())
-                .withUri(requestURI)
-                .withCity(cityResponse.getCity().getName())
-                .withCountry(cityResponse.getCountry().getName())
-                .withLocation(cityResponse.getLocation().getTimeZone())
-                .withPostalCode(cityResponse.getPostal().getCode());
+        System.err.println(requestURI);
+        CityResponse cityResponse = geoIpService.getLocation(remoteAddr);
+        Log log = new Log();
+        if(cityResponse != null) {
+            System.err.println("city : " + cityResponse.getCity());
+            log = log
+                    .withRemoteAddr(remoteAddr)
+                    .withTime(LocalDateTime.now().toString())
+                    .withUri(requestURI)
+                    .withCity(cityResponse.getCity().getName())
+                    .withCountry(cityResponse.getCountry().getName())
+                    .withLocation(cityResponse.getLocation().getTimeZone())
+                    .withPostalCode(cityResponse.getPostal().getCode());
+
+        }else{
+            log = log
+                    .withRemoteAddr(remoteAddr)
+                    .withTime(LocalDateTime.now().toString())
+                    .withUri(requestURI)
+                    .withCity("null")
+                    .withCountry("null")
+                    .withLocation("null")
+                    .withPostalCode("null");
+
+        }
 
         if(isInappropriateUri(requestURI)){
             filterChain.doFilter(request, response);
+            System.err.println("which");
 
         }else if(isStaticResource(requestURI)){
             filterChain.doFilter(request, response);
+            System.err.println("one");
             return;
         } else{
             loggingService.saveInappropriateLog(log);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             System.err.println(request.getRequestURI());
+            System.err.println("is");
             return;
         }
 
@@ -99,10 +117,10 @@ public class LoggingFilter extends OncePerRequestFilter {
         return false;
     }
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String uri = request.getRequestURI();
-        return ignoredURIs.stream()
-                .noneMatch(uri::startsWith);
-    }
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//        String uri = request.getRequestURI();
+//        return ignoredURIs.stream()
+//                .noneMatch(uri::startsWith);
+//    }
 }

@@ -34,6 +34,7 @@ public class GeoIpService {
 
         } catch (Exception e) {
             log.error("IP 위치 조회 실패: " + ipAddress, e);
+
             return null;
         }
     }

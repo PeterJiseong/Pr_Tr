@@ -17,13 +17,14 @@ public class KakaoService {
     @Value("${kakao.restApi.url}")
     private String kakaoRestApiUrl;
 
-    public void kakaoAuthorize(){
+    public String kakaoAuthorize(){
         String response = kakaoAuthorize.get()
                 .uri(kakaoRestApiUrl)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
         System.err.println(response);
+        return response;
     }
 
 }

@@ -16,9 +16,11 @@ public class MemberController {
     private final MemberService memberService;
     private final KakaoService kakaoService;
 
-    @GetMapping(value = "/kakaoAuthenticate")
-    public String kakaoAuthenticate(Model model) {
-
-        return "/member/testContent";
+    @GetMapping(value = "/kakaoAuthorize")
+    public String kakaoAuthorize(Model model) {
+        System.err.println("kakaoAuthorize 동작");
+        String resp = kakaoService.kakaoAuthorize();
+        System.err.println("resp : " + resp);
+        return "/main/member/testContent";
     }
 }
