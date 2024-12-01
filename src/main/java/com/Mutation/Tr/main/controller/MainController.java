@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class MainController {
         System.err.println("main");
         return mainHtmlContentPath+"index";
     }
+    @ResponseBody
     @GetMapping("/health")  // 또는 로드밸런서가 체크하는 경로
     public String healthCheck() {
         return "OK";  // 간단한 응답

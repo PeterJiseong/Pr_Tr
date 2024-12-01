@@ -118,10 +118,9 @@ public class LoggingFilter extends OncePerRequestFilter {
         return false;
     }
 
-//    @Override
-//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-//        String uri = request.getRequestURI();
-//        return ignoredURIs.stream()
-//                .noneMatch(uri::startsWith);
-//    }
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String uri = request.getRequestURI();
+        return uri.equals("/health");
+    }
 }
