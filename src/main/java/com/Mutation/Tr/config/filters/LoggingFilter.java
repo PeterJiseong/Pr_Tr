@@ -39,7 +39,19 @@ public class LoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
-        String remoteAddr = request.getRemoteAddr();
+        String remoteAddr = request.getHeader("X-Forwarded-For");
+        if (remoteAddr == null || remoteAddr.isEmpty()) {
+            remoteAddr = request.getHeader("Proxy-Client-IP");
+        }
+        if (remoteAddr == null || remoteAddr.isEmpty()) {
+            remoteAddr = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (remoteAddr == null || remoteAddr.isEmpty()) {
+            remoteAddr = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (remoteAddr == null || remoteAddr.isEmpty()) {
+            remoteAddr = request.getRemoteAddr();
+        }
         log.info("filter");
         System.err.println(requestURI);
         CityResponse cityResponse = geoIpService.getLocation(remoteAddr);
