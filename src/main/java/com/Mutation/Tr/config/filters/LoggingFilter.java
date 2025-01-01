@@ -40,6 +40,7 @@ public class LoggingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
         String remoteAddr = request.getHeader("X-Forwarded-For");
+        System.err.println("remoteAddr: " + request.getRemoteAddr());
         System.err.println("X-Forwarded-For: " + remoteAddr);
         System.err.println("Proxy-Client-IP: " + request.getHeader("Proxy-Client-IP"));
         System.err.println("HTTP_CLIENT_IP: " + request.getHeader("HTTP_CLIENT_IP"));

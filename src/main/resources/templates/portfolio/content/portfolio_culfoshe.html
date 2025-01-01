@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{portfolio/fragment/main/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CulFoShe Project</title>
+    <link rel="stylesheet" href="/css/portfolio/content/culfoshe.css">
+    <style>
+        .project-header {
+            background-color: #1a237e;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .project-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .project-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            color: #1a237e;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #1a237e;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .project-info {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .info-item h3 {
+            color: #1a237e;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background-color: #1a237e;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #ff9800;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .project-header {
+                padding: 3rem 1rem;
+                margin-top: 3rem;
+            }
+
+            .project-header h1 {
+                font-size: 2rem;
+            }
+
+            .project-content {
+                padding: 2rem 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="project-header">
+        <h1>CulFoShe Project</h1>
+        <p>Spring Boot 기반의 웹 애플리케이션 프로젝트</p>
+        <div class="status-badge">교육과정 프로젝트</div>
+    </div>
+
+    <div class="project-content">
+        <section class="section">
+            <h2>프로젝트 개요</h2>
+            <div class="project-info">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h3>프로젝트 배경</h3>
+                        <p>국비지원 교육과정에서 진행한 팀 프로젝트로, Spring Boot를 활용한 웹 애플리케이션 개발을 목표로 했습니다.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>프로젝트 상태</h3>
+                        <p>팀원들의 진로 변경으로 인해 프로젝트가 완료되지 않았으나, Spring 프레임워크와 웹 개발의 기초를 다지는 중요한 학습 경험이었습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>사용 기술</h2>
+            <div class="project-info">
+                <h3>기술 스택</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">Spring Boot</span>
+                    <span class="tech-tag">Thymeleaf</span>
+                    <span class="tech-tag">Oracle</span>
+                    <span class="tech-tag">JPA</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Spring Security</span>
+                    <span class="tech-tag">HTML</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>프로젝트 의의</h2>
+            <div class="project-info">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h3>학습 성과</h3>
+                        <p>Spring Boot 프레임워크의 기본 구조와 작동 원리를 이해하고, 웹 애플리케이션 개발의 전반적인 프로세스를 경험했습니다.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>기술 습득</h3>
+                        <p>JPA를 통한 데이터베이스 연동, Spring Security를 활용한 보안 설정, Thymeleaf를 이용한 화면 구현 등 실제 프로젝트에 필요한 핵심 기술들을 학습했습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</th:block>
+</body>
+</html>

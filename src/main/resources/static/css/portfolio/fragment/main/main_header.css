@@ -121,6 +121,11 @@
 .profile-image{
   cursor: pointer;
 }
+#header-off{
+  color: #babbc7;
+}
+
+
 /* 반응형 */
 @media (max-width: 768px) {
   .nav-container {

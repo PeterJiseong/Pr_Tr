@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{portfolio/fragment/main/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dishcovery Project</title>
+    <link rel="stylesheet" href="/css/portfolio/content/dishcovery.css">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="project-header">
+        <h1>Dishcovery Project</h1>
+        <p>레시피 공유 플랫폼 (2024.02 - 2024.08)</p>
+    </div>
+
+    <div class="project-content">
+        <section class="section">
+            <h2>프로젝트 개요</h2>
+            <div class="tech-implementation">
+                <div class="implementation-detail">
+                    <h3>프로젝트 배경</h3>
+                    <p>이전 프로젝트의 미완성에 대한 아쉬움을 바탕으로, 실제 서비스 가능한 수준의 레시피 공유 플랫폼을 목표로 시작되었습니다. 4인 팀 프로젝트로서, 저는 <span class="span-pointer">웹 관련 기술 전반</span> 담당했습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>실시간 알림 시스템</h2>
+            <div class="tech-implementation">
+                <div class="implementation-detail">
+                    <h3 class="prototype">초기 구현</h3>
+                    <p>처음에는 페이지 이동이 발생할 때마다 서버에 요청을 보내 알림 목록을 업데이트하는 방식을 고려했습니다.</p>
+                </div>
+
+                <div class="implementation-detail">
+                    <h3 class="obstacle">문제 발생</h3>
+                    <p>이 방식은 기존 기술로 쉽게 구현할 수 있다는 장점이 있었으나, '실시간성'이라는 핵심 요구사항을 만족시키지 못했습니다.</p>
+                </div>
+
+                <div class="implementation-detail">
+                    <h3 class="solve">해결 과정</h3>
+                    <p>Server-Sent Events(SSE)를 도입하여 진정한 실시간 알림을 구현했습니다.</p>
+                    <div class="code-section">
+                        <div class="code-title">SSE 구현 코드</div>
+                        <pre class="code-block">
+@GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+public SseEmitter subscribe(@RequestParam String userId) {
+    SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
+
+    // 연결 완료 후 콜백 등록
+    emitter.onTimeout(() -> emitterRepository.remove(userId));
+    emitter.onCompletion(() -> emitterRepository.remove(userId));
+
+    // 503 에러 방지를 위한 더미 이벤트 전송
+    sendDummyEvent(emitter);
+
+    // 저장소에 저장
+    emitterRepository.save(userId, emitter);
+
+    return emitter;
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>사용자 중심의 로그인 처리</h2>
+            <div class="tech-implementation">
+                <div class="implementation-detail">
+                    <h3 class="prototype">초기 구현</h3>
+                    <p>기본적으로 로그인 성공 시 메인 페이지로 이동하는 단순한 로직으로 구현했습니다.</p>
+                    <div class="code-section">
+                        <div class="code-title">초기 로그인 처리 코드</div>
+                        <pre class="code-block">
+response.sendRedirect("/main");</pre>
+                    </div>
+                </div>
+
+                <div class="implementation-detail">
+                    <h3 class="obstacle">문제 발생</h3>
+                    <p>사용자가 특정 페이지에서 로그인을 시도했을 때, 무조건 메인 페이지로 이동하여 원래 보고 있던 페이지로 다시 돌아가야 하는 불편함이 발생했습니다.</p>
+                </div>
+
+                <div class="implementation-detail">
+                    <h3 class="solve">해결 과정</h3>
+                    <p>인터셉터를 활용하여 로그인 전 페이지를 저장하고, 로그인 후 해당 페이지로 리다이렉트하는 방식으로 개선했습니다.</p>
+                    <div class="code-section">
+                        <div class="code-title">개선된 로그인 인터셉터</div>
+                        <pre class="code-block">
+public class CheckLoginInterceptor implements HandlerInterceptor {
+    @Override
+    public boolean preHandle(HttpServletRequest request,
+                           HttpServletResponse response,
+                           Object handler) throws Exception {
+        HttpSession session = request.getSession();
+        String targetURI = request.getRequestURI();
+
+        try {
+            Principal principal = request.getUserPrincipal();
+            checkLogin(principal);
+        } catch (Exception e) {
+            session.setAttribute("target", request.getRequestURI());
+            response.sendRedirect("/member/loginForm");
+            return false;
+        }
+        return true;
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>댓글 시스템 최적화</h2>
+            <div class="tech-implementation">
+                <div class="implementation-detail">
+                    <h3 class="prototype">초기 구현</h3>
+                    <p>대댓글 기능 구현을 위해 List 자료구조를 사용한 단순 순회 방식으로 구현했습니다.</p>
+                    <div class="code-section">
+                        <div class="code-title">초기 대댓글 매핑 코드</div>
+                        <pre class="code-block">
+// 초기 구현 - O(n²) 시간복잡도
+for (CommentVO reComment : reCommentList) {
+    for (CommentVO comment : commentList) {
+        if (comment.getCommentId().equals(reComment.getReCode())) {
+            comment.addReComment(reComment);
+            break;
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="implementation-detail">
+                    <h3 class="obstacle">문제 발생</h3>
+                    <p>1. O(n²) 시간복잡도로 인한 성능 문제</p>
+                    <p>2. 정렬된 상태로 댓글을 유지하는데 어려움</p>
+                </div>
+
+                <div class="implementation-detail">
+                    <h3 class="solve">해결 과정</h3>
+                    <p>1. Map 자료구조 도입으로 조회 성능 개선</p>
+                    <p>2. 커스텀 Comparator를 구현하여 정렬 로직 개선</p>
+                    <div class="code-section">
+                        <div class="code-title">최적화된 대댓글 매핑 및 정렬</div>
+                        <pre class="code-block">
+public static List&lt;CommentVO&gt; sortReComment(
+        Map&lt;String, CommentVO&gt; commentMap,
+        List&lt;CommentVO&gt; reCommentList) {
+    // O(n) 시간복잡도로 개선
+    for (CommentVO reComment : reCommentList) {
+        commentMap.get(reComment.getReCode())
+                 .addReCommentList(reComment);
+    }
+
+    List&lt;CommentVO&gt; resultList = new ArrayList&lt;&gt;(commentMap.values());
+    resultList.sort(CommentVOComparatorByRegDate
+                   .getCommentVOComparatorByRegDate());
+    return resultList;
+}</pre>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-title">커스텀 Comparator 구현</div>
+                        <pre class="code-block">
+public class CommentVOComparatorByRegDate implements Comparator&lt;CommentVO&gt; {
+    private static DateTimeFormatter formatter =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static CommentVOComparatorByRegDate comparator =
+        new CommentVOComparatorByRegDate();
+
+    @Override
+    public int compare(CommentVO o1, CommentVO o2) {
+        LocalDateTime d1 = LocalDateTime.parse(o1.getReg_date(), formatter);
+        LocalDateTime d2 = LocalDateTime.parse(o2.getReg_date(), formatter);
+        return d1.compareTo(d2);
+    }
+
+    public static CommentVOComparatorByRegDate getInstance() {
+        return comparator;
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>댓글 비동기 처리</h2>
+            <div class="tech-implementation">
+                <div class="implementation-detail">
+                    <h3 class="prototype">초기 구현</h3>
+                    <p>처음에는 댓글 입력 시 페이지 전체가 새로고침되는 방식으로 구현했습니다.</p>
+                </div>
+
+                <div class="implementation-detail">
+                    <h3 class="obstacle">문제 발생</h3>
+                    <p>댓글 입력만을 위해 전체 페이지가 새로고침되는 것은 불필요한 서버 요청과 사용자 경험 저하를 야기했습니다.</p>
+                </div>
+
+                <div class="implementation-detail">
+                    <h3 class="solove">해결 과정</h3>
+                    <p>Fetch API를 활용하여 필요한 부분만 업데이트하는 비동기 방식으로 개선했습니다.</p>
+                    <div class="code-section">
+                        <div class="code-title">비동기 댓글 처리 구현</div>
+                        <pre class="code-block">
+function submitComment(target) {
+    let formData = new FormData(target.closest('.submitBlock'));
+    let options = {
+        method: 'POST',
+        cache: 'no-cache',
+        body: formData
+    }
+
+    fetch(submitURL, options)
+        .then((resp) => {
+            if(!resp.ok) throw new Error();
+            return resp.text();
+        })
+        .then((data) => {
+            writeContent(replacePosition, data);
+            commentTotalCountRender();
+        })
+        .catch(e => {
+            pu_error();
+        });
+}</pre>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-title">서버측 응답 처리</div>
+                        <pre class="code-block">
+@PostMapping("/submit")
+@ResponseBody
+public String submitComment(@ModelAttribute CommentVO commentVO) {
+    service.insertComment(commentVO);
+    // 새로운 댓글 목록만 렌더링하여 반환
+    return commentService.getCommentListHtml(commentVO.getFoodCode());
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>기술 스택</h2>
+            <div class="tech-implementation">
+                <div class="tech-tags">
+                    <span class="tech-tag">Spring Boot</span>
+                    <span class="tech-tag">Spring Security</span>
+                    <span class="tech-tag">Server-Sent Events</span>
+                    <span class="tech-tag">My batis</span>
+                    <span class="tech-tag">Oracle</span>
+                    <span class="tech-tag">Thymeleaf</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">HTML/CSS</span>
+                </div>
+            </div>
+        </section>
+    </div>
+</th:block>
+</body>
+</html>

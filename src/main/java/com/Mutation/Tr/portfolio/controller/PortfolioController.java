@@ -49,5 +49,25 @@ public class PortfolioController {
         return portfolioService.getNotionPage(notionPortfolioMainPage);
     }
 
+    @GetMapping(value = "/culfoshe")
+    public String portfolioCulfoshe(Model model) {
 
+        return portfolioPath + "portfolio_culfoshe";
+    }
+
+    @GetMapping(value = "/dishcovery")
+    public String portfolioDiscovery(Model model) {
+        return portfolioPath + "portfolio_dishcovery";
+    }
+
+    @GetMapping(value = "tyrion")
+    public String portfolioTyrion(Model model) {
+        return portfolioPath + "portfolio_tyrion";
+    }
+
+    @GetMapping(value = "/notion")
+    @ResponseBody
+    public String notionTyrion(Model model) {
+        return portfolioService.getNotionPage(notionPortfolioMainPage);
+    }
 }
