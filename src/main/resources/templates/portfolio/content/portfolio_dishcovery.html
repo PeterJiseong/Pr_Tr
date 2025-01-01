@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dishcovery Project</title>
     <link rel="stylesheet" href="/css/portfolio/content/dishcovery.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/monokai.min.css">
+
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -44,22 +46,62 @@
                     <div class="code-section">
                         <div class="code-title">SSE 구현 코드</div>
                         <pre class="code-block">
-@GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-public SseEmitter subscribe(@RequestParam String userId) {
-    SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
+                            <code class="language-java">
+    //Sever Sent Event의 http 연결의 엔드포인트
+    @GetMapping(value = "/getAlarm")
+    public SseEmitter getAlarm(Principal principal){
+        //sseEmitter 객체를 생성 후 emitter id에 유저의 정보를 저장
+        SseEmitter emitter = sseService.loginSSE(
+                principal.getName()
+                ,alarmService.alarmList(
+                        new MemberVO().withMemberId(principal.getName())
+                )
+        );
+        log.info(principal.getName());
+        return emitter;
+    }
 
-    // 연결 완료 후 콜백 등록
-    emitter.onTimeout(() -> emitterRepository.remove(userId));
-    emitter.onCompletion(() -> emitterRepository.remove(userId));
+    //service
 
-    // 503 에러 방지를 위한 더미 이벤트 전송
-    sendDummyEvent(emitter);
+    public SseEmitter loginSSE(String id, List&lt;AlarmVO&gt; list){
+        SseEmitter emitter = null;
+        emitter = createEmitter(id);
+        sendAlarmList(id, list);
+        return emitter;
+    }
+    public void notify(String id, List&lt;AlarmVO&gt; list){
+        sendAlarmList(id,list);
+    }
 
-    // 저장소에 저장
-    emitterRepository.save(userId, emitter);
+    private void sendAlarmList(String id, List&lt;AlarmVO&gt; list){
+        SseEmitter emitter = sseRepository.get(id);
+        if(emitter != null){
+            try{
+                emitter.send(SseEmitter.event().id(id).name("notification").data(list));
+            }catch (IOException e){
+                sseRepository.deleteById(id);
+                emitter.completeWithError(e);
+            }
+        }
+    }
+     private SseEmitter createEmitter(String id){
+        //SseEmitter객체 생성 -> 기본생성자 초기 타임아웃 30분
+        SseEmitter emitter = new SseEmitter();
+        sseRepository.save(id, emitter);
 
-    return emitter;
-}</pre>
+        // Emitter가 완료될 때(모든 데이터가 성공적으로 전송된 상태) Emitter를 삭제한다.
+        emitter.onCompletion(() -> sseRepository.complete());
+        // Emitter가 타임아웃 되었을 때(지정된 시간동안 어떠한 이벤트도 전송되지 않았을 때) Emitter를 삭제한다.
+        emitter.onTimeout(() -> sseRepository.deleteById(id));
+
+        return emitter;
+    }
+
+    public void deleteId(String id){
+        sseRepository.deleteById(id);
+    }
+                            </code>
+                        </pre>
                     </div>
                 </div>
             </div>
@@ -74,7 +116,13 @@ public SseEmitter subscribe(@RequestParam String userId) {
                     <div class="code-section">
                         <div class="code-title">초기 로그인 처리 코드</div>
                         <pre class="code-block">
-response.sendRedirect("/main");</pre>
+                            <code class="language-java">
+response.sendRedirect("/main");
+                            </code>
+                        </pre>
+
+
+
                     </div>
                 </div>
 
@@ -89,6 +137,9 @@ response.sendRedirect("/main");</pre>
                     <div class="code-section">
                         <div class="code-title">개선된 로그인 인터셉터</div>
                         <pre class="code-block">
+                            <code class="language-java">
+
+
 public class CheckLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request,
@@ -107,7 +158,9 @@ public class CheckLoginInterceptor implements HandlerInterceptor {
         }
         return true;
     }
-}</pre>
+}
+                                </code>
+                        </pre>
                     </div>
                 </div>
             </div>
@@ -122,6 +175,7 @@ public class CheckLoginInterceptor implements HandlerInterceptor {
                     <div class="code-section">
                         <div class="code-title">초기 대댓글 매핑 코드</div>
                         <pre class="code-block">
+                            <code class="language-java">
 // 초기 구현 - O(n²) 시간복잡도
 for (CommentVO reComment : reCommentList) {
     for (CommentVO comment : commentList) {
@@ -130,7 +184,9 @@ for (CommentVO reComment : reCommentList) {
             break;
         }
     }
-}</pre>
+}
+                            </code>
+                        </pre>
                     </div>
                 </div>
 
@@ -147,6 +203,7 @@ for (CommentVO reComment : reCommentList) {
                     <div class="code-section">
                         <div class="code-title">최적화된 대댓글 매핑 및 정렬</div>
                         <pre class="code-block">
+                            <code class="language-java">
 public static List&lt;CommentVO&gt; sortReComment(
         Map&lt;String, CommentVO&gt; commentMap,
         List&lt;CommentVO&gt; reCommentList) {
@@ -160,12 +217,17 @@ public static List&lt;CommentVO&gt; sortReComment(
     resultList.sort(CommentVOComparatorByRegDate
                    .getCommentVOComparatorByRegDate());
     return resultList;
-}</pre>
+}
+                            </code>
+                        </pre>
                     </div>
 
                     <div class="code-section">
                         <div class="code-title">커스텀 Comparator 구현</div>
                         <pre class="code-block">
+                            <code class="language-java">
+
+
 public class CommentVOComparatorByRegDate implements Comparator&lt;CommentVO&gt; {
     private static DateTimeFormatter formatter =
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -182,7 +244,9 @@ public class CommentVOComparatorByRegDate implements Comparator&lt;CommentVO&gt;
     public static CommentVOComparatorByRegDate getInstance() {
         return comparator;
     }
-}</pre>
+}
+                                </code>
+                        </pre>
                     </div>
                 </div>
             </div>
@@ -207,6 +271,8 @@ public class CommentVOComparatorByRegDate implements Comparator&lt;CommentVO&gt;
                     <div class="code-section">
                         <div class="code-title">비동기 댓글 처리 구현</div>
                         <pre class="code-block">
+                            <code class="language-javascript">
+
 function submitComment(target) {
     let formData = new FormData(target.closest('.submitBlock'));
     let options = {
@@ -227,19 +293,24 @@ function submitComment(target) {
         .catch(e => {
             pu_error();
         });
-}</pre>
+}
+                            </code>
+                        </pre>
                     </div>
 
                     <div class="code-section">
                         <div class="code-title">서버측 응답 처리</div>
                         <pre class="code-block">
-@PostMapping("/submit")
+                            <code class=" language-java">
+                                  @PostMapping("/submit")
 @ResponseBody
 public String submitComment(@ModelAttribute CommentVO commentVO) {
     service.insertComment(commentVO);
     // 새로운 댓글 목록만 렌더링하여 반환
     return commentService.getCommentListHtml(commentVO.getFoodCode());
-}</pre>
+}
+                            </code>
+                        </pre>
                     </div>
                 </div>
             </div>
@@ -261,6 +332,8 @@ public String submitComment(@ModelAttribute CommentVO commentVO) {
             </div>
         </section>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
 </th:block>
 </body>
 </html>
