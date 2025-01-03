@@ -14,18 +14,19 @@
         <header class="header_wrap">
             <nav class="navbar">
                 <div class="nav-container">
-                    <a href="./main" class="nav-logo">Portfolio</a>
+                    <a href="/portfolio/main" class="nav-logo">Portfolio</a>
                     <ul class="nav-menu">
                         <li class="dropdown">
                             <a>Projects ▾</a>
                             <ul class="dropdown-content">
-                                <li><a id="header-off" href="./culfoshe">CulFoShe</a></li>
-                                <li><a href="./dishcovery">Dishcovoery</a></li>
+                                <li><a id="header-off" href="/portfolio/culfoshe">CulFoShe</a></li>
+                                <li><a href="/portfolio/dishcovery">Dishcovoery</a></li>
                                 <li><a href="#">개인 Blog</a></li>
                             </ul>
                         </li>
-                        <li><a href="#Blog">Skills</a></li>
-                        <li onclick="kakaoAuthorize()">
+                        <li><a href="/guest/boardList">방명록</a></li>
+
+                        <li id="kakaoAuthorize">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
@@ -35,6 +36,7 @@
                 </div>
             </nav>
         </header>
+        <script src="/js/portfolio/header.js"></script>
     </th:block>
 </body>
 

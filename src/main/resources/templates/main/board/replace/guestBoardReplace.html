@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="guestBoard-list">
+    <div th:each="board : ${guestBoardList}" class="guestBoard-item">
+        <div class="guest-info">
+            <div>
+                <span class="guest-name" th:text="${board.name}">방문자</span>
+                <span class="guest-email" th:text="${board.email}">visitor@email.com</span>
+            </div>
+            <span class="guest-ip" th:text="${board.ip}">127.0.0.1</span>
+        </div>
+        <div class="guest-content" th:text="${board.content}">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

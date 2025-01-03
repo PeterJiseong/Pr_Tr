@@ -1,0 +1,158 @@
+/* guestBoard.css */
+:root {
+    --navy: #1a237e;
+    --navy-light: #283593;
+    --navy-dark: #121858;
+    --white: #ffffff;
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.guestBoard-header {
+    background-color: var(--navy);
+    color: var(--white);
+    padding: 3rem 2rem;
+    text-align: center;
+    margin-top: 4rem;
+    position: relative;
+}
+
+.guestBoard-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.guestBoard-content {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* 방명록 작성 폼 */
+.guestBoard-form {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--navy-light);
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.submit-btn {
+    background-color: var(--navy);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--navy-light);
+}
+
+/* 방명록 목록 */
+.guestBoard-list {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.guestBoard-item {
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease;
+}
+
+.guestBoard-item:hover {
+    transform: translateY(-2px);
+}
+
+.guest-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.guest-name {
+    color: var(--navy);
+    font-weight: 600;
+}
+
+.guest-email {
+    color: var(--gray-600);
+    font-size: 0.9rem;
+}
+
+.guest-ip {
+    color: var(--gray-600);
+    font-size: 0.85rem;
+}
+
+.guest-content {
+    color: var(--gray-700);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .guestBoard-header {
+        padding: 2rem 1rem;
+        margin-top: 3rem;
+    }
+
+    .guestBoard-header h1 {
+        font-size: 2rem;
+    }
+
+    .guestBoard-form {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .guest-info {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

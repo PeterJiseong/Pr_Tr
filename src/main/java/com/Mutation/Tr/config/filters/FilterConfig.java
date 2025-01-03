@@ -24,6 +24,8 @@ public class FilterConfig {
         List<String> urlPatterns = new ArrayList<>();
         urlPatterns.add("/favicon");
         urlPatterns.add("/portfolio");
+        urlPatterns.add("/member");
+        urlPatterns.add("/guest");
 
         List<String> ignores = new ArrayList<>();
         ignores.add("/css");

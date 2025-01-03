@@ -44,8 +44,8 @@ public class WebClientConfig {
         return WebClient.builder()
                 .baseUrl(kakaoRestApiUrl)
                 .defaultHeader("response_type","code")
-                .defaultHeader("client_id","kakaoRestApiKey")
-                .defaultHeader("redirect_uri","http://www.projectyrion.com")
+                .defaultHeader("client_id",kakaoRestApiKey)
+                .defaultHeader("redirect_uri","https://www.projectyrion.com")
                 .build();
     }
 

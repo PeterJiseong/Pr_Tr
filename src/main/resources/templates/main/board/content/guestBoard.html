@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{portfolio/fragment/main/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="/css/board/guestBoard/guestBoard.css">
+    <link rel="stylesheet" href="/css/portfolio/content/mainContent.css">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="guestBoard-header">
+        <h1>000 다녀갑니다.</h1>
+        <p>방문해주셔서 감사합니다. 인터넷 예절을 지켜서 등록해주세요.<br>무분별한 비속어 사용은 삭제처리 될 수 있습니다.</p>
+    </div>
+
+    <div class="guestBoard-content">
+        <!-- 방명록 작성 폼 -->
+
+
+        <!-- 방명록 목록 -->
+        <div class="guestBoard-list">
+            <div th:each="board : ${guestBoardList}" class="guestBoard-item">
+                <div class="guest-info">
+                    <div>
+                        <span class="guest-name" th:text="${board.name}">방문자</span>
+                        <span class="guest-email" th:text="${board.email}">visitor@email.com</span>
+                    </div>
+                    <span class="guest-ip" th:text="ip+${board.ip}">127.0.0.1</span>
+                </div>
+                <div class="guest-content" th:text="${board.content}">
+
+                </div>
+            </div>
+        </div>
+        <form class="guestBoard-form" th:action="@{/guest/guestBoardWrite}" method="post">
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <!--            <div class="form-group">-->
+            <!--                <label for="email">이메일</label>-->
+            <!--                <input type="email" id="email" name="email" class="form-control" required>-->
+            <!--            </div>-->
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea id="content" name="content" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">작성하기</button>
+        </form>
+    </div>
+    <script src="/js/portfolio/header.js"></script>
+    <script type="module" src="/js/guest/guestBoard.js"></script>
+
+
+</th:block>
+
+</body>
+</html>

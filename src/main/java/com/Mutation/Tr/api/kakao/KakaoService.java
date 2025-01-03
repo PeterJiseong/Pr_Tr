@@ -19,11 +19,15 @@ public class KakaoService {
 
     public String kakaoAuthorize(){
         String response = kakaoAuthorize.get()
-                .uri(kakaoRestApiUrl)
-                .retrieve()
-                .bodyToMono(String.class)
+                .uri("/oauth/authorize")
+                .exchangeToMono(clientResponse -> {
+                    System.err.println("Status code: " + clientResponse.statusCode());
+                    return clientResponse.bodyToMono(String.class);
+                })
                 .block();
-        System.err.println(response);
+
+        System.err.println("kakaoService.kakaoAuthorize().response : " + response);
+        System.err.println(kakaoAuthorize);
         return response;
     }
 

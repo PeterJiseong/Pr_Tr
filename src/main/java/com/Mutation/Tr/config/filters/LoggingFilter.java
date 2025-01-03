@@ -15,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.List;
 
 @WebFilter(urlPatterns = "/*")
@@ -40,12 +39,12 @@ public class LoggingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
         String remoteAddr = request.getHeader("X-Forwarded-For");
-        System.err.println("remoteAddr: " + request.getRemoteAddr());
-        System.err.println("X-Forwarded-For: " + remoteAddr);
-        System.err.println("Proxy-Client-IP: " + request.getHeader("Proxy-Client-IP"));
-        System.err.println("HTTP_CLIENT_IP: " + request.getHeader("HTTP_CLIENT_IP"));
-        System.err.println("HTTP_X_FORWARDED_FOR: " + request.getHeader("HTTP_X_FORWARDED_FOR"));
-        System.err.println("WL-Proxy-Client-IP: " + request.getHeader("WL-Proxy-Client-IP"));
+//        System.err.println("remoteAddr: " + request.getRemoteAddr());
+//        System.err.println("X-Forwarded-For: " + remoteAddr);
+//        System.err.println("Proxy-Client-IP: " + request.getHeader("Proxy-Client-IP"));
+//        System.err.println("HTTP_CLIENT_IP: " + request.getHeader("HTTP_CLIENT_IP"));
+//        System.err.println("HTTP_X_FORWARDED_FOR: " + request.getHeader("HTTP_X_FORWARDED_FOR"));
+//        System.err.println("WL-Proxy-Client-IP: " + request.getHeader("WL-Proxy-Client-IP"));
 
         if (remoteAddr == null || remoteAddr.isEmpty()) {
             remoteAddr = request.getHeader("Proxy-Client-IP");
@@ -60,7 +59,7 @@ public class LoggingFilter extends OncePerRequestFilter {
             remoteAddr = request.getRemoteAddr();
         }
         log.info("filter");
-        System.err.println(requestURI);
+//        System.err.println(requestURI);
         CityResponse cityResponse = geoIpService.getLocation(remoteAddr);
         Log log = new Log();
         if(cityResponse != null) {
@@ -96,29 +95,29 @@ public class LoggingFilter extends OncePerRequestFilter {
         } else{
             loggingService.saveInappropriateLog(log);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            System.err.println(request.getRequestURI());
+//            System.err.println(request.getRequestURI());
 
             return;
         }
 
 
         loggingService.saveAppropriageLog(log);
-        System.err.println("requestURI : " + requestURI);
-        System.err.println("requestURL : " + request.getRequestURL());
-        System.err.println("request.Header ::");
+//        System.err.println("requestURI : " + requestURI);
+//        System.err.println("requestURL : " + request.getRequestURL());
+//        System.err.println("request.Header ::");
         request.getHeaderNames().asIterator().forEachRemaining((o)->{
             System.err.println(o + " : " + request.getHeader(o).toString());
         });
 
-        System.err.println("request.getLocalPort : " + request.getLocalPort());
-        System.err.println("request.getMethod : " + request.getMethod());
-        System.err.println("request.getParameterMap :  : " + request.getParameterMap());
+//        System.err.println("request.getLocalPort : " + request.getLocalPort());
+//        System.err.println("request.getMethod : " + request.getMethod());
+//        System.err.println("request.getParameterMap :  : " + request.getParameterMap());
         request.getParameterMap().forEach((k,v)->{
-            System.err.println(k + " : " + Arrays.toString((String[]) v) );
+//            System.err.println(k + " : " + Arrays.toString((String[]) v) );
         });
-        System.err.println("request.getPathInfo : " + request.getPathInfo());
-        System.err.println("request.getQueryString : " + request.getQueryString());
-        System.err.println("end \n\n\n");
+//        System.err.println("request.getPathInfo : " + request.getPathInfo());
+//        System.err.println("request.getQueryString : " + request.getQueryString());
+//        System.err.println("end \n\n\n");
     }
 
     private boolean isInappropriateUri(String uri) {

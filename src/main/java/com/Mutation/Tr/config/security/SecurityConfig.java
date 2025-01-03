@@ -27,6 +27,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
 
 
+        http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
                 http.formLogin(formLogin->formLogin
                         .loginPage("/member/login")
                         .usernameParameter("memberId")
